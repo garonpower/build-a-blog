@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+        
+    <form method='post'>
+        <fieldset>
+            <legend><h1><strong>Add a Blog Entry</strong></h1></legend>
+            <label>
+                Title for your new blog:<br>
+                <input type="text" name="title" />
+            </label>
+            <br><br>
+            <label>
+                Your new blog:<br>
+                <textarea name="content" rows="10" cols="30"></textarea>
+            </label>
+            <br><br>
+            <input type="submit" value="Add Entry">
+        </fieldset>
+    </form>
+    <hr />
+
+    {% if posts|length == 0 %}
+    <p>No blog posts yet</p>
+    {% else %}
+
+        
+        {% for post in posts %}
+            {{post.title}} <br>
+            {{post.content}}<br><br>
+            <form method="POST" action="/completed_posts">
+                <input type="hidden" name="title-id" value="{{post.id}}" />
+            </form>  
+        {% endfor %}
+
+       
+
+
+       
+
+    {% endif %}
+
+    <hr />
+
+{% endblock %}
