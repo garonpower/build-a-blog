@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, flash, url_for
+from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -65,7 +65,9 @@ def add_blog_entry():
         if (not post_content) or (post_content.strip() == ""):
             content_error = "Please fill in the body"
         
-        if title_error and content_error:
+        if not title_error and not content_error:
+            return redirect('/blog')
+        else:
             return render_template('/newpost.html', 
                 title_error=title_error,
                 content_error=content_error, 
@@ -75,8 +77,6 @@ def add_blog_entry():
         new_post = Blog(post_title,post_content)
         db.session.add(new_post)
         db.session.commit()
-    
-    return redirect('/blog')
 
 if __name__ == '__main__':
     app.run()

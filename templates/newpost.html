@@ -6,20 +6,19 @@
         <fieldset>
             <legend><h1><strong>Add a Blog Entry</strong></h1></legend>
             <label>
-                Title for your new blog:<br>
-                <input type="text" name="title" />
+                <h3>Title for your new blog:</h3>
+                <input type="text" name="title" value="{{post_title}}"/>
                 <p class="error"><i>{{ title_error }}</i></p>
             </label>
-            <br><br>
+
             <label>
-                Your new blog:<br>
-                <textarea name="content" rows="15" cols="60"></textarea>
+                <h3>Your new blog:</h3>
+                <textarea name="content" rows="15" cols="60">{{post_content}}</textarea>
                 <p class="error"><i>{{ content_error }}</i></p>
             </label>
-            <br><br>
+
             <input type="submit" value="Add Entry">
         </fieldset>
     </form>
-    <hr />
 
 {% endblock %}
