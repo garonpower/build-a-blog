@@ -8,11 +8,13 @@
             <label>
                 Title for your new blog:<br>
                 <input type="text" name="title" />
+                <p class="error"><i>{{ title_error }}</i></p>
             </label>
             <br><br>
             <label>
                 Your new blog:<br>
-                <textarea name="content" rows="10" cols="30"></textarea>
+                <textarea name="content" rows="15" cols="60"></textarea>
+                <p class="error"><i>{{ content_error }}</i></p>
             </label>
             <br><br>
             <input type="submit" value="Add Entry">

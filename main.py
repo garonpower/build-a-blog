@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:h7mfGQuWUn5UEsee@localhost:3306/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
@@ -44,18 +45,38 @@ def completed_posts():
 
     return redirect('/blog')
 
+@app.route('/newpost')
+def display_blog_entry():
+    return render_template('newpost.html',title="Add Blog Entry")
+
 @app.route('/newpost', methods=['POST', 'GET'])
 def add_blog_entry():
 
     if request.method == 'POST':
         post_title = request.form['title']
         post_content = request.form['content']
+
+        title_error = ''
+        content_error = ''
+
+        if (not post_title) or (post_title.strip() == ""):
+            title_error = "Please fill in the title"
+
+        if (not post_content) or (post_content.strip() == ""):
+            content_error = "Please fill in the body"
+        
+        if title_error and content_error:
+            return render_template('/newpost.html', 
+                title_error=title_error,
+                content_error=content_error, 
+                post_title=post_title,
+                post_content=post_content)
+
         new_post = Blog(post_title,post_content)
         db.session.add(new_post)
         db.session.commit()
-
     
-    return render_template('newpost.html',title="Add Blog Entry")
+    return redirect('/blog')
 
 if __name__ == '__main__':
     app.run()

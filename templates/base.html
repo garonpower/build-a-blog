@@ -14,6 +14,16 @@
         <a href='/blog'>Main Blog Page</a> <a href='/newpost'>Add a blog Entry</a>
     </div>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+                 <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
     {% block content %}
     {%  endblock %}
 

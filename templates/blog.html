@@ -10,7 +10,7 @@
 
         
         {% for post in posts %}
-            <h2>{{post.title}}</h2>
+            <a href="/blog?id={{post.id}}"><h2>{{post.title}}</h2></a>
             {{post.content}}<br><br>
             <form method="POST" action="/completed_posts">
                 <input type="hidden" name="title-id" value="{{post.id}}" />
