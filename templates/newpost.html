@@ -20,26 +20,4 @@
     </form>
     <hr />
 
-    {% if posts|length == 0 %}
-    <p>No blog posts yet</p>
-    {% else %}
-
-        
-        {% for post in posts %}
-            {{post.title}} <br>
-            {{post.content}}<br><br>
-            <form method="POST" action="/completed_posts">
-                <input type="hidden" name="title-id" value="{{post.id}}" />
-            </form>  
-        {% endfor %}
-
-       
-
-
-       
-
-    {% endif %}
-
-    <hr />
-
 {% endblock %}

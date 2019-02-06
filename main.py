@@ -20,28 +20,14 @@ class Blog(db.Model):
         self.content = content
         self.posted = False
 
-@app.route('/main')
-def main_blog_page():   
-    return redirect('/')
-
-@app.route('/newpost')
-def add_blog_entry():   
-    return redirect('/')
-
-@app.route('/', methods=['POST', 'GET'])
-def index():
-
-    if request.method == 'POST':
-        post_title = request.form['title']
-        post_content = request.form['content']
-        new_post = Blog(post_title,post_content)
-        db.session.add(new_post)
-        db.session.commit()
+@app.route('/blog', methods=['GET'])
+def index(): 
 
     posts = Blog.query.filter_by(posted=False).all()
     posted_blogs = Blog.query.filter_by(posted=True).all()
-    return render_template('newpost.html',title="Build A Blog", 
-        posts=posts, posted_blogs=posted_blogs)
+
+    return render_template('blog.html', title = 'Build A Blog',
+    posts=posts, posted_blogs=posted_blogs)
 
 @app.route('/completed_posts', methods=['POST'])
 def completed_posts():
@@ -56,7 +42,20 @@ def completed_posts():
     db.session.add(content_post)
     db.session.commit()
 
-    return redirect('/')
+    return redirect('/blog')
+
+@app.route('/newpost', methods=['POST', 'GET'])
+def add_blog_entry():
+
+    if request.method == 'POST':
+        post_title = request.form['title']
+        post_content = request.form['content']
+        new_post = Blog(post_title,post_content)
+        db.session.add(new_post)
+        db.session.commit()
+
+    
+    return render_template('newpost.html',title="Add Blog Entry")
 
 if __name__ == '__main__':
     app.run()

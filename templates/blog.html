@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1><strong>Build a Blog</strong></h1>
+        
+    {% if posts|length == 0 %}
+    <p>No blog posts yet</p>
+    {% else %}
+
+        
+        {% for post in posts %}
+            <h2>{{post.title}}</h2>
+            {{post.content}}<br><br>
+            <form method="POST" action="/completed_posts">
+                <input type="hidden" name="title-id" value="{{post.id}}" />
+            </form>  
+            <hr />
+        {% endfor %}
+
+       
+    {% endif %}
+
+    
+
+{% endblock %}
