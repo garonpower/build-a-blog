@@ -66,7 +66,11 @@ def add_blog_entry():
             content_error = "Please fill in the body"
         
         if not title_error and not content_error:
-            return redirect('/blog')
+            new_post = Blog(post_title,post_content)
+            db.session.add(new_post)
+            db.session.commit()
+            blog = new_post.id
+            return redirect('/blog_post?id=' + str(blog))
         else:
             return render_template('/newpost.html', 
                 title_error=title_error,
@@ -74,9 +78,15 @@ def add_blog_entry():
                 post_title=post_title,
                 post_content=post_content)
 
-        new_post = Blog(post_title,post_content)
-        db.session.add(new_post)
-        db.session.commit()
+
+@app.route('/blog_post', methods=['POST', 'GET'])
+def blog_post():
+    if request.method == 'GET':
+        blog_id = request.args.get('id')
+        blog = Blog.query.get(blog_id)
+
+        return render_template('blog_post.html',  blog=blog)
+
 
 if __name__ == '__main__':
     app.run()
